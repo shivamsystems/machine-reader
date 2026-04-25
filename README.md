@@ -37,7 +37,7 @@ Before you begin, ensure you have met the following requirements:
 
 **1. Clone the repository**
 bash
-git clone [https://github.com/YourUsername/YourRepositoryName.git](https://github.com/YourUsername/YourRepositoryName.git)
+git clone [https://github.com/shivamsystems/machine-reading.git](https://github.com/shivamsystems/machine-reading.git)
 cd YourRepositoryName
 2. Create a Virtual Environment (Recommended)
 Isolating your dependencies ensures this script doesn't conflict with other Python projects on your machine.
