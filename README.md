@@ -1,55 +1,100 @@
-# Automated OCR Machine Data Logger 📷 ➡️ 📊
+# 📷 Automated Machine Vision Data Logger
 
-An end-to-end Python automation pipeline that extracts physical machine readings from photos using Computer Vision (EasyOCR) and logs them directly into an Excel spreadsheet with precise timestamps.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![EasyOCR](https://img.shields.io/badge/EasyOCR-Active-brightgreen)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Logging-orange)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
 
-This project was built to eliminate the manual data entry bottleneck in mechanical engineering workflows, bridging the gap between physical hardware readings and digital data processing.
+An end-to-end computer vision pipeline designed to bridge the gap between physical machine outputs and digital databases. This tool utilizes Optical Character Recognition (OCR) to automatically extract 16 distinct alphanumeric readings from raw photographs and log them into a structured Excel database with precise timestamps.
 
-## 🚀 Features
+Built to eliminate manual data entry bottlenecks in mechanical and manufacturing environments, ensuring high-fidelity data capture for downstream automation.
 
-* **Automated Image Processing:** Automatically detects new photos added to a designated folder.
-* **Optical Character Recognition (OCR):** Uses EasyOCR and PyTorch to extract complex alphanumeric data from raw images.
-* **Intelligent Parsing:** Specifically targets and extracts 16 distinct data points (`01K` through `16K`).
-* **Timestamped Logging:** Appends the extracted data, missing value counts, and raw OCR text directly to an Excel file (`machine_readings.xlsx`) with exact date and time logs.
-* **Seamless Workflow:** Integrates with Google Drive sync to allow remote data capture via a smartphone camera.
+---
 
-## 🔄 The Workflow
+## 🏗️ System Architecture
 
-1. **📱 Phone Camera:** Snap a photo of the machine display/readings.
-2. **☁️ Google Drive Sync:** The image automatically syncs to your PC via Google Drive.
-3. **📁 Local "photos" Folder:** The image lands in the designated local directory.
-4. **🧠 Python (EasyOCR):** The `auto_reader.py` script detects the new image and runs OCR.
-5. **📊 Excel Log:** Data is cleaned, structured, and saved into the Excel tracking sheet.
+The pipeline operates on a continuous monitoring loop, processing data from the physical environment to the digital ledger seamlessly:
 
-## 📂 Project Structure
+1. **Capture:** Operator takes a photo of the machine display via smartphone.
+2. **Cloud Sync:** Image is automatically synchronized to the local workstation via Google Drive.
+3. **Event Detection:** `auto_reader.py` detects the new file in the `/photos` directory.
+4. **Vision Processing:** PyTorch-powered EasyOCR extracts all raw text from the image.
+5. **Data Parsing:** Custom logic filters and isolates the 16 target variables (`01K` through `16K`).
+6. **Database Write:** Data is appended to `machine_readings.xlsx` alongside an execution timestamp, missing value count, and the original image filename.
 
-```text
-├── photos/                  # Directory where synced images are dropped
-├── .gitignore               # Ignores unwanted files and virtual environments
-├── auto_reader.py           # Main automation script for continuous monitoring and OCR
-├── machine_readings.xlsx    # Excel database where all readings are logged
-├── requirement.txt          # Python dependencies (EasyOCR, pandas, etc.)
-├── test_ocr.py              # Script used for testing and tuning the OCR model
-🛠️ Setup & Installation
-1. Clone the repository:
+---
 
-Bash
+## ⚙️ Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+* **OS:** Windows / macOS / Linux
+* **Python:** Version 3.8 or higher
+* **Hardware:** A CUDA-enabled GPU is highly recommended to accelerate PyTorch/EasyOCR processing, though it will run successfully on a CPU.
+
+---
+
+## 🛠️ Installation & Setup
+
+**1. Clone the repository**
+bash
 git clone [https://github.com/YourUsername/YourRepositoryName.git](https://github.com/YourUsername/YourRepositoryName.git)
 cd YourRepositoryName
-2. Install dependencies:
-Make sure you have Python installed. Install the required libraries using:
+2. Create a Virtual Environment (Recommended)
+Isolating your dependencies ensures this script doesn't conflict with other Python projects on your machine.
+
+Bash
+python -m venv venv
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+3. Install Dependencies
 
 Bash
 pip install -r requirement.txt
-(Note: This project utilizes EasyOCR, which may require PyTorch. If you encounter warning messages regarding GPU acceleration, ensure your PyTorch installation matches your system's CUDA capabilities, or it will default to CPU).
-
-3. Run the automation script:
+🚀 Usage
+To start the automated logging server, run the main script from your terminal:
 
 Bash
 python auto_reader.py
-The terminal will display Waiting for photos.... As soon as a new image is dropped into the photos/ folder, the script will process it and update the Excel file.
+Expected Output:
+The terminal will display Waiting for photos....
+When a new .jpeg or .png is dropped into the photos/ folder, the terminal will log:
 
-💡 Motivation
-As a Mechanical Design Engineer transitioning into software and automation, I built this tool to solve a real-world problem: tedious manual data logging. This project serves as a practical application of Python for mechanical automation, reducing human error and freeing up time for actual engineering analysis.
+The detected image name.
 
-🤝 Contributing
-Feedback, issues, and pull requests are welcome! If you have suggestions for improving OCR accuracy or optimizing the data pipeline, feel free to open an issue.
+The raw OCR text output.
+
+The cleaned and parsed variables.
+
+A success message (Saved to Excel!).
+
+📊 Data Structure
+The output machine_readings.xlsx generates the following schema automatically:
+
+Date	Time	01K	...	16K	Missing Count	Raw OCR Text	Image Name
+YYYY-MM-DD	HH:MM:SS	Float	...	Float	Int	String	String
+Note: The Missing Count column acts as an automated quality control check. If a photo is blurry and the OCR misses a parameter, this column flags it for manual review.
+
+🧪 Testing & Calibration
+If you need to test the OCR accuracy on a specific image without running the continuous loop, use the test script:
+
+Bash
+python test_ocr.py
+This is useful for calibrating the OCR confidence thresholds or adjusting for different lighting conditions in the factory/lab.
+
+🗺️ Future Roadmap
+[ ] Database Integration: Migrate from Excel to an SQLite or PostgreSQL database for more robust querying.
+
+[ ] Data Visualization: Build a lightweight Streamlit dashboard to visualize the machine readings in real-time.
+
+[ ] Alerting System: Add an email/Discord webhook alert if a captured reading falls outside of safe mechanical tolerances.
+
+👤 Author
+Shivam Singh
+
+Mechanical Design Engineer transitioning into Robotics Software Engineering.
+
+Focused on building Python-based automation tools to optimize physical engineering workflows.
+
+LinkedIn Profile
