@@ -44,8 +44,10 @@ Isolating your dependencies ensures this script doesn't conflict with other Pyth
 
 Bash
 python -m venv venv
+
 # On Windows:
 venv\Scripts\activate
+
 # On macOS/Linux:
 source venv/bin/activate
 3. Install Dependencies
@@ -57,6 +59,7 @@ To start the automated logging server, run the main script from your terminal:
 
 Bash
 python auto_reader.py
+
 Expected Output:
 The terminal will display Waiting for photos....
 When a new .jpeg or .png is dropped into the photos/ folder, the terminal will log:
@@ -74,6 +77,7 @@ The output machine_readings.xlsx generates the following schema automatically:
 
 Date	Time	01K	...	16K	Missing Count	Raw OCR Text	Image Name
 YYYY-MM-DD	HH:MM:SS	Float	...	Float	Int	String	String
+
 Note: The Missing Count column acts as an automated quality control check. If a photo is blurry and the OCR misses a parameter, this column flags it for manual review.
 
 🧪 Testing & Calibration
@@ -83,18 +87,7 @@ Bash
 python test_ocr.py
 This is useful for calibrating the OCR confidence thresholds or adjusting for different lighting conditions in the factory/lab.
 
-🗺️ Future Roadmap
-[ ] Database Integration: Migrate from Excel to an SQLite or PostgreSQL database for more robust querying.
 
-[ ] Data Visualization: Build a lightweight Streamlit dashboard to visualize the machine readings in real-time.
-
-[ ] Alerting System: Add an email/Discord webhook alert if a captured reading falls outside of safe mechanical tolerances.
 
 👤 Author
 Shivam Singh
-
-Mechanical Design Engineer transitioning into Robotics Software Engineering.
-
-Focused on building Python-based automation tools to optimize physical engineering workflows.
-
-LinkedIn Profile
